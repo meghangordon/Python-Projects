@@ -4,6 +4,8 @@ class Vehicle:
     speed = ' '
     inventory_number = 0
 
+    def 
+
 class Car(Vehicle):
     door = 4
     engine = 'gasoline'
