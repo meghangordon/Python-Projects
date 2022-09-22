@@ -16,7 +16,7 @@
 ## Protected class - cat
 class Cat:
     def __init__(self):
-        self.__protectedCat = ''
+        self._protectedCat = ''
         
 obj = Cat()
 obj._protectedCat = 'Meow'
