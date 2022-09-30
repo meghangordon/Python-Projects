@@ -2,98 +2,115 @@ import tkinter as tk
 from tkinter import *
 import tkinter.filedialog
 import os
-import time
 import shutil
-from datetime import datetime, timedelta
 
 
 class ParentWindow(Frame):
     def __init__(self, master):
         Frame.__init__(self)
+        
         #title for GUI window
         self.master.title("File Transfer")
         
         #Button to select files from source directory
         self.sourceDir_btn = Button(text="Select Source", width=20, command=self.sourceDir)
+
         #Positions source button in GUI with tkinter grid()
         self.sourceDir_btn.grid(row=0, column=0, padx=(20,10), pady=(30, 0))
+
         #Positions source directory selection
         self.source_dir = Entry(width=75)
+
         #positions entry in GUI using tkinter grid()
         self.source_dir.grid(row=0, column=1, columnspan=2, padx=(20,10), pady=(30, 0))
 
+
         #Creates button to select destination of files from destination directory
         self.destDir_btn = Button(text="Select Destination", width=20, command=self.destDir)
+
         #Positions destination button in GUI using tkinter grid() on the next row
         self.destDir_btn.grid(row=1, column=0, padx=(20, 10), pady=(15, 10))
 
+
+
         #Creates entry for destiantion directory selection
         self.destination_dir = Entry(width=75)
+
         #Postitions entry in GUI using tkinter grid() padx and pady
         self.destination_dir.grid(row=1, column=1, columnspan=2, padx=(20, 10), pady=(15, 10))
 
-        #creates button to transfer files
-        self.transfer_btn = Button(text="Transfer Files", width=20, command = self.transferFiles)
-        #positions transfer files button
-        self.transfer_btn.grid(row=2, column=1, padx=(200,0), pady=(0,15))
 
-        #creates an exit button
-        self.exit_btn = Button(text= "Exit", width=20, comman=self.exit_program)
-        #positions the exit button
+
+        #Creates button the transfer files
+        self.transfer_btn = Button(text="Transfer Files", width=20, command=self.transferFiles)
+
+        #Positions transfer files button
+        self.transfer_btn.grid(row=2, column=1, padx=(200, 0), pady=(0, 15))
+
+
+        #Creates an exit button
+        self.exit_btn = Button(text="Exit", width=20, command=self.exit_program)
+
+        #Positions the Exit button
         self.exit_btn.grid(row=2, column=2, padx=(10, 40), pady=(0, 15))
-        
-    
+
+    #Creates function to selet source directory.
     def sourceDir(self):
         selectSourceDir = tkinter.filedialog.askdirectory()
-        #The .delete will clear the content that is inserted in the entry widget
+        #this .delete will clear the content that is inserted in the Entry widget.
+
+        #This allows the pasth to be inserted into the Entry widget propertly.
         self.source_dir.delete(0, END)
-        #The .insert method will insert the user selection to the source_dir Entry
+
+        #The .insert method will insert the user selection to the source_dir entry
         self.source_dir.insert(0, selectSourceDir)
-        
+
 
     def destDir(self):
         selectDestDir = tkinter.filedialog.askdirectory()
-        #The .delete will clear the content that is inserted in the entry widget
+        #the delete will clear the contact that is inserted in the Entry widget
+
+        #This allows the path to be inserted into the Entry widget properly.
         self.destination_dir.delete(0, END)
-        #The insert method will insert the user selection to the destination_dir Entry widget
-        self.destination_dir.insert(0,selectDestDir)
-        
 
+        #The .insert method will insert the user selection to the destination_dir Entry widget.
+        self.destination_dir.insert(0, selectDestDir)
+    
+    #Creates function to transfer files from one directory
     def transferFiles(self):
+
+
+
+        # The function that needs to be editied
+
+
+
         
+
+        #Gets source directory
         source = self.source_dir.get()
+
+        #Gets destination directory
         destination = self.destination_dir.get()
+
+        #Gets a list of files in the source directory
         source_files = os.listdir(source)
+
+        #Runs through each file in the source directory
         for i in source_files:
-            file_path = os.path.join(source, i)
 
-####USE DATETIME AND TIMEDELTA TO GET THE CURRENT TIME
-            #current_time = datetime.today()
-            
-            mod_check = datetime.now() - timedelta(hours = 24)
-            #print("mod_check is: ", mod_check)
-
-####USE OS.PATH.GETMTIME() TO GET THE TIMESTAMP OF THE FILE FROM ITS FILEPATH
-            mod_time = os.path.getmtime(file_path)
-        
-            #timestamp of file
-            file_date = datetime.fromtimestamp(mod_time)
-            #print("file_date is: ", file_date)
-                
-####CHECK IF THE RESULT OF THAT DEDUCTION IS LESS AND 24 HOURS.
-        
-            if file_date > mod_check:
-                shutil.move(source + '/' + i, destination)
-                print(i + ' is a new or edited in last 24 hours file')
+            shutil.move(source + '/' + i, destination)
+            print(i + ' was sucessfully transferred.')
 
 
-    
-    
     def exit_program(self):
+        #root is the main GUI window, the Tkinter destroy method
+        #tells python to terminate root.mainloop and all widgets inside the GUI window.
         root.destroy()
 
+    
 if __name__ == "__main__":
     root = tk.Tk()
     App = ParentWindow(root)
     root.mainloop()
-    
+
